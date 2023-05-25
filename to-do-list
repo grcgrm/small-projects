@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To Do List</title>
 
     <!-- Bootstrap Icon -->
@@ -11,7 +9,8 @@
 
     <style>
         body {
-            background-color: #ffe9c4; /* Dark background color */
+            background-color: #ffe9c4;
+            /* Dark background color */
             margin: 0;
             padding: 0;
             display: flex;
@@ -27,20 +26,25 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            width: 55em;
+            height: auto;
         }
 
-        h1, .completed-heading {
+        h1,
+        .completed-heading {
             font-family: "Poppins", sans-serif;
             font-weight: 600;
             text-align: center;
             line-height: 0.5;
+            font-size: 3em;
         }
 
         #task-input {
             border-radius: 20px;
             padding: 8px 12px;
             border: 1px solid #74746c;
-            font-size: 16px;
+            font-size: 2em;
+            width: 77%;
         }
 
         #task-input:focus {
@@ -75,7 +79,7 @@
             top: calc(50% - .3em);
             transform: rotate(0deg);
             transition: all .3s;
-            }
+        }
 
         .checkbox-custom:checked {
             background-color: #617A55;
@@ -89,12 +93,13 @@
 
         .add-btn {
             border-radius: 20px;
-            padding: 8px 25px;
-            font-size: 16px;
+            padding: 8px 1.6em;
+            font-size: 2em;
             background-color: #617A55;
             color: #ffffff;
             border: none;
             cursor: pointer;
+            margin-left: 10px;
         }
 
         .add-btn:hover {
@@ -102,17 +107,18 @@
         }
 
         .add-btn:focus {
-            outline: none; 
+            outline: none;
         }
 
         /* Line-through task label when checkbox is checked */
-        .task-label input[type="checkbox"]:checked + span {
+        .task-label input[type="checkbox"]:checked+span {
             text-decoration: line-through;
         }
 
         .task-label {
             display: flex;
             align-items: center;
+            font-size: 2em;
         }
 
         .task-label .delete-btn {
@@ -153,87 +159,288 @@
 
         .delete-btn i {
             color: #fd4741;
-            font-size: 12px;
+            font-size: 2em;
         }
     </style>
 </head>
 
 <body>
 
-<div class="container">
-    <h1>To Do List</h1>
+    <div class="container">
+        <h1>To Do List</h1>
 
-    <form id="todo-form">
-        <input type="text" id="task-input" placeholder="Enter task">
-        <button type="submit" class="add-btn">Add</button>
-    </form>
+        <form id="todo-form">
+            <input type="text" id="task-input" placeholder="Enter task">
+            <button type="submit" class="add-btn">Add</button>
+        </form>
 
-    <ul id="task-list">
-        <!-- Tasks will be dynamically added here -->
-    </ul>
+        <ul id="task-list">
+            <!-- Tasks will be dynamically added here -->
+        </ul>
 
-    <hr class="separator">
+        <hr class="separator">
 
-    <h2 class="completed-heading">Completed</h2>
-    <ul id="completed-list">
-        <!-- Completed tasks will be dynamically added here -->
-    </ul>
-</div>
+        <h2 class="completed-heading">Completed</h2>
+        <ul id="completed-list">
+            <!-- Completed tasks will be dynamically added here -->
+        </ul>
+    </div>
 
 
-<script>
-    // Function to create a delete button
-    function createDeleteButton() {
-        var deleteButton = document.createElement("button");
-        deleteButton.className = "delete-btn";
-        var deleteIcon = document.createElement("i");
-        deleteIcon.className = "bi bi-trash";
-        deleteButton.appendChild(deleteIcon);
+    <script>
+        // Function to create a delete button
+        function createDeleteButton() {
+            var deleteButton = document.createElement("button");
+            deleteButton.className = "delete-btn";
+            var deleteIcon = document.createElement("i");
+            deleteIcon.className = "bi bi-trash";
+            deleteButton.appendChild(deleteIcon);
 
-        return deleteButton;
-    }
-
-    // Move unchecked task to the top of the task list
-    function moveUncheckedTaskToTop(taskItem) {
-        var taskList = document.getElementById("task-list");
-        var firstTaskItem = taskList.firstChild;
-
-        if (!taskItem.querySelector("input[type='checkbox']").checked) {
-            taskList.insertBefore(taskItem, firstTaskItem);
-        }
-    }
-
-    // Function to move completed task to the completed list
-    function moveCompletedTask(taskItem) {
-        var completedList = document.getElementById("completed-list");
-        var firstCompletedTaskItem = completedList.firstChild;
-
-        completedList.insertBefore(taskItem, firstCompletedTaskItem);
-    }
-
-    // Function to handle task completion and uncompletion
-    function handleTaskCompletion(taskItem) {
-        var checkbox = taskItem.querySelector("input[type='checkbox']");
-        var taskList = taskItem.parentNode;
-        var completedList = document.getElementById("completed-list");
-
-        if (checkbox.checked) {
-            taskList.removeChild(taskItem);
-            completedList.appendChild(taskItem);
-        } else {
-            completedList.removeChild(taskItem);
-            moveUncheckedTaskToTop(taskItem);
+            return deleteButton;
         }
 
-        checkCompletedVisibility(); // Check visibility of the completed list
-    }
+        // Move unchecked task to the top of the task list
+        function moveUncheckedTaskToTop(taskItem) {
+            var taskList = document.getElementById("task-list");
+            var firstTaskItem = taskList.firstChild;
 
-    // Function to add a new task
-    function addTask() {
-        var taskInput = document.getElementById("task-input");
-        var taskLabel = taskInput.value;
+            if (!taskItem.querySelector("input[type='checkbox']").checked) {
+                taskList.insertBefore(taskItem, firstTaskItem);
+            }
+        }
 
-        if (taskLabel !== "") {
+        // Function to move completed task to the completed list
+        function moveCompletedTask(taskItem) {
+            var completedList = document.getElementById("completed-list");
+            var firstCompletedTaskItem = completedList.firstChild;
+
+            completedList.insertBefore(taskItem, firstCompletedTaskItem);
+        }
+
+        // Function to handle task completion and uncompletion
+        function handleTaskCompletion(taskItem) {
+            var checkbox = taskItem.querySelector("input[type='checkbox']");
+            var taskList = taskItem.parentNode;
+            var completedList = document.getElementById("completed-list");
+
+            if (checkbox.checked) {
+                taskList.removeChild(taskItem);
+                completedList.appendChild(taskItem);
+            } else {
+                completedList.removeChild(taskItem);
+                moveUncheckedTaskToTop(taskItem);
+            }
+
+            checkCompletedVisibility(); // Check visibility of the completed list
+        }
+
+        function saveTaskToLocalStorage(taskLabel) {
+            // Check if task data already exists in local storage
+            var tasks = localStorage.getItem("tasks");
+            if (tasks) {
+                tasks = JSON.parse(tasks);
+            } else {
+                tasks = [];
+            }
+
+            // Add the new task to the existing task data
+            tasks.push(taskLabel);
+
+            // Save the updated task data to local storage
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+        }
+
+        function updateLocalStorageTasks() {
+            var taskItems = document.querySelectorAll(".task-label");
+
+            var tasks = [];
+            var completedTasks = [];
+
+            // Iterate over each task item to update the task data
+            taskItems.forEach(function (taskItem) {
+                var checkbox = taskItem.querySelector(".checkbox-custom");
+                var taskLabel = taskItem.querySelector("span").textContent;
+
+                if (checkbox.checked) {
+                    completedTasks.push(taskLabel);
+                } else {
+                    tasks.push(taskLabel);
+                }
+            });
+
+            // Save the updated task data to local storage
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+            localStorage.setItem("completedTasks", JSON.stringify(completedTasks));
+        }
+
+
+
+        // Function to add a new task
+        function addTask() {
+            var taskInput = document.getElementById("task-input");
+            var taskLabel = taskInput.value;
+
+            if (taskLabel !== "") {
+                var taskItem = document.createElement("li");
+                taskItem.className = "task-label";
+
+                var checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.className = "checkbox-custom";
+
+                var labelSpan = document.createElement("span");
+                labelSpan.textContent = taskLabel;
+
+                var deleteButton = createDeleteButton();
+
+                // Function to delete a task
+                deleteButton.addEventListener("click", function () {
+                    taskItem.remove();
+                    checkCompletedVisibility(); // Check visibility of the completed list
+                });
+
+                // Function to handle task completion and uncompletion
+                checkbox.addEventListener("change", function () {
+                    handleTaskCompletion(taskItem);
+                });
+
+                saveTaskToLocalStorage(taskLabel);
+
+                taskItem.appendChild(checkbox);
+                taskItem.appendChild(labelSpan);
+                taskItem.appendChild(deleteButton);
+
+                document.getElementById("task-list").appendChild(taskItem);
+
+                taskInput.value = ""; // Clear the input field
+                moveUncheckedTaskToTop(taskItem); // Move unchecked task to the top
+            }
+        }
+
+        document.getElementById("todo-form").addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent form submission
+
+            addTask();
+        });
+
+        // Move checked task to the completed list
+        document.addEventListener("change", function (event) {
+            var checkbox = event.target;
+            if (checkbox.type === "checkbox") {
+                var taskItem = checkbox.parentNode;
+                var taskList = taskItem.parentNode;
+                var completedList = document.getElementById("completed-list");
+                var completedHeading = document.querySelector(".completed-heading");
+                var separator = document.querySelector(".separator");
+
+                if (taskList.id === "task-list" && checkbox.checked) {
+                    taskList.removeChild(taskItem);
+                    completedList.appendChild(taskItem);
+                } else if (taskList.id === "completed-list" && !checkbox.checked) {
+                    completedList.removeChild(taskItem);
+                    taskList.appendChild(taskItem);
+                }
+
+                checkCompletedVisibility(); // Check visibility of the completed list
+            }
+
+            // Update local storage when a task is checked or unchecked
+            updateLocalStorageTasks();
+        });
+
+        // Check visibility of the completed list, completed heading, and separator
+        function checkCompletedVisibility() {
+            var completedList = document.getElementById("completed-list");
+            var completedHeading = document.querySelector(".completed-heading");
+            var separator = document.querySelector(".separator");
+
+            if (completedList.children.length === 0) {
+                completedList.style.display = "none";
+                completedHeading.style.display = "none";
+                separator.style.display = "none";
+            } else {
+                completedList.style.display = "block";
+                completedHeading.style.display = "block";
+                separator.style.display = "block";
+            }
+
+            // Check if there are any tasks in local storage
+            var tasks = localStorage.getItem("tasks");
+            if (!tasks || JSON.parse(tasks).length === 0) {
+                completedList.style.display = "none";
+                completedHeading.style.display = "none";
+                separator.style.display = "none";
+            } else {
+                completedList.style.display = "block";
+                completedHeading.style.display = "block";
+                separator.style.display = "block";
+            }
+
+            // Check if there are any completed tasks in local storage
+            var completedTasks = localStorage.getItem("completedTasks");
+            if (!completedTasks || JSON.parse(completedTasks).length === 0) {
+                completedList.style.display = "none";
+                completedHeading.style.display = "none";
+                separator.style.display = "none";
+            } else {
+                completedList.style.display = "block";
+                completedHeading.style.display = "block";
+                separator.style.display = "block";
+            }
+        }
+
+        // Retrieve tasks from local storage and display them on the page
+        function displayTasksFromLocalStorage() {
+            var tasks = localStorage.getItem("tasks");
+            if (tasks) {
+                tasks = JSON.parse(tasks);
+                tasks.forEach(function (taskLabel) {
+                    createTaskElement(taskLabel);
+                });
+            }
+        }
+
+        // Function to display completed tasks from local storage
+        function displayCompletedTasksFromLocalStorage() {
+            var completedTasks = localStorage.getItem("completedTasks");
+
+            if (completedTasks) {
+                completedTasks = JSON.parse(completedTasks);
+
+                completedTasks.forEach(function (taskLabel) {
+                    createCompletedTaskElement(taskLabel);
+                });
+            }
+        }
+        // Function to create a completed task element and append it to the completed list
+        function createCompletedTaskElement(taskLabel) {
+            var taskItem = document.createElement("li");
+            taskItem.className = "task-label";
+
+            var checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.className = "checkbox-custom";
+            checkbox.checked = true;
+
+            var labelSpan = document.createElement("span");
+            labelSpan.textContent = taskLabel;
+
+            var deleteButton = createDeleteButton();
+
+            // Function to delete a completed task
+            deleteButton.addEventListener("click", function () {
+                taskItem.remove();
+                updateLocalStorageTasks(); // Update local storage
+            });
+
+            taskItem.appendChild(checkbox);
+            taskItem.appendChild(labelSpan);
+            taskItem.appendChild(deleteButton);
+
+            document.getElementById("completed-list").appendChild(taskItem);
+        }
+        // Function to create a task element and append it to the task list
+        function createTaskElement(taskLabel) {
             var taskItem = document.createElement("li");
             taskItem.className = "task-label";
 
@@ -263,62 +470,18 @@
 
             document.getElementById("task-list").appendChild(taskItem);
 
-            taskInput.value = ""; // Clear the input field
             moveUncheckedTaskToTop(taskItem); // Move unchecked task to the top
         }
-    }
 
-    document.getElementById("todo-form").addEventListener("submit", function (event) {
-        event.preventDefault(); // Prevent form submission
+        displayTasksFromLocalStorage();
+        displayCompletedTasksFromLocalStorage()
 
-        addTask();
-    });
+        // Initial check for completed tasks on page load
+        checkCompletedVisibility();
+    </script>
 
-    // Move checked task to the completed list
-    document.addEventListener("change", function (event) {
-        var checkbox = event.target;
-        if (checkbox.type === "checkbox") {
-            var taskItem = checkbox.parentNode;
-            var taskList = taskItem.parentNode;
-            var completedList = document.getElementById("completed-list");
-            var completedHeading = document.querySelector(".completed-heading");
-            var separator = document.querySelector(".separator");
-
-            if (taskList.id === "task-list" && checkbox.checked) {
-                taskList.removeChild(taskItem);
-                completedList.appendChild(taskItem);
-            } else if (taskList.id === "completed-list" && !checkbox.checked) {
-                completedList.removeChild(taskItem);
-                taskList.appendChild(taskItem);
-            }
-
-            checkCompletedVisibility(); // Check visibility of the completed list
-        }
-    });
-
-    // Check visibility of the completed list, completed heading, and separator
-    function checkCompletedVisibility() {
-        var completedList = document.getElementById("completed-list");
-        var completedHeading = document.querySelector(".completed-heading");
-        var separator = document.querySelector(".separator");
-
-        if (completedList.children.length === 0) {
-            completedList.style.display = "none";
-            completedHeading.style.display = "none";
-            separator.style.display = "none";
-        } else {
-            completedList.style.display = "block";
-            completedHeading.style.display = "block";
-            separator.style.display = "block";
-        }
-    }
-
-    // Initial check for completed tasks on page load
-    checkCompletedVisibility();
-</script>
-
-
-  <!-- Created by grcgrm -->
+    <!-- Created by grcgrm -->
 
 </body>
+
 </html>
